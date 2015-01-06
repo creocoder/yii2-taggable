@@ -26,7 +26,43 @@ to the `require` section of your `composer.json` file.
 
 ## Configuring
 
-TBD.
+Configure model as follows:
+
+```php
+use creocoder\taggable\TaggableBehavior;
+
+class Post extends \yii\db\ActiveRecord
+{
+    public $tagNames;
+
+    public function behaviors()
+    {
+        return [
+            TaggableBehavior::className(),
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            //...
+            ['tagNames', 'safe'],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('post_tag_assn', ['post_id' => 'id']);
+    }
+}
+```
 
 ## Usage
 
