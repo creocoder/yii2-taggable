@@ -60,7 +60,7 @@ class Post extends \yii\db\ActiveRecord
     public function transactions()
     {
         return [
-            self::SCENARIO_DEFAULT => self::OP_INSERT | self::OP_UPDATE,
+            self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
     }
 
