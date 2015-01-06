@@ -1,0 +1,24 @@
+{
+    "name": "creocoder/yii2-taggable",
+    "description": "The taggable behavior for the Yii framework",
+    "keywords": [
+        "yii2",
+        "taggable"
+    ],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Alexander Kochetov",
+            "email": "creocoder@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "creocoder\\taggable\\": "src"
+        }
+    }
+}
