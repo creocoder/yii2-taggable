@@ -23,7 +23,7 @@ class TaggableBehavior extends Behavior
     /**
      * @var string
      */
-    public $attribute = 'tagNames';
+    public $relation = 'tags';
     /**
      * @var string
      */
@@ -33,9 +33,9 @@ class TaggableBehavior extends Behavior
      */
     public $frequency = 'frequency';
     /**
-     * @var string
+     * @var array
      */
-    public $relation = 'tags';
+    private $_tagNames;
 
     /**
      * @inheritdoc
@@ -51,18 +51,40 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @return string
+     */
+    public function getTagNames()
+    {
+        if ($this->_tagNames === null && !$this->owner->isRelationPopulated($this->relation)) {
+            $this->populateTagNames();
+        }
+
+        return $this->_tagNames === null ? '' : implode(', ', $this->_tagNames);
+    }
+
+    /**
+     * @param string|string[] $value
+     */
+    public function setTagNames($value)
+    {
+        $this->_tagNames = array_unique(preg_split(
+            '/\s*,\s*/u',
+            preg_replace('/\s+/u', ' ', is_array($value) ? implode(',', $value) : $value),
+            -1,
+            PREG_SPLIT_NO_EMPTY
+        ));
+    }
+
+    /**
      * @return void
      */
     public function afterFind()
     {
-        $items = [];
-
-        /* @var ActiveRecord $tag */
-        foreach ($this->owner->{$this->relation} as $tag) {
-            $items[] = $tag->getAttribute($this->name);
+        if (!$this->owner->isRelationPopulated($this->relation)) {
+            return;
         }
 
-        $this->owner->{$this->attribute} = implode(', ', $items);
+        $this->populateTagNames();
     }
 
     /**
@@ -70,9 +92,7 @@ class TaggableBehavior extends Behavior
      */
     public function afterSave()
     {
-        $attribute = $this->owner->{$this->attribute};
-
-        if ($attribute === null) {
+        if ($this->_tagNames === null) {
             return;
         }
 
@@ -80,20 +100,13 @@ class TaggableBehavior extends Behavior
             $this->beforeDelete();
         }
 
-        $names = array_unique(preg_split(
-            '/\s*,\s*/u',
-            preg_replace('/\s+/u', ' ',  $attribute),
-            -1,
-            PREG_SPLIT_NO_EMPTY
-        ));
-
         $relation = $this->owner->getRelation($this->relation);
         $pivot = $relation->via->from[0];
         /* @var ActiveRecord $class */
         $class = $relation->modelClass;
         $rows = [];
 
-        foreach ($names as $name) {
+        foreach ($this->_tagNames as $name) {
             /* @var ActiveRecord $tag */
             $tag = $class::findOne([$this->name => $name]);
 
@@ -145,5 +158,18 @@ class TaggableBehavior extends Behavior
             ->createCommand()
             ->delete($pivot, [key($relation->via->link) => $this->owner->getPrimaryKey()])
             ->execute();
+    }
+
+    /**
+     * @return void
+     */
+    protected function populateTagNames()
+    {
+        $this->_tagNames = [];
+
+        /* @var ActiveRecord $tag */
+        foreach ($this->owner->{$this->relation} as $tag) {
+            $this->_tagNames[] = $tag->getAttribute($this->name);
+        }
     }
 }
