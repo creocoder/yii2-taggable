@@ -16,7 +16,10 @@ class TaggableBehaviorTest extends DatabaseTestCase
 {
     public function testFindPost()
     {
-        $this->assertEquals(require(__DIR__ . '/data/test-find-post.php'), Post::findOne(2)->toArray([], ['tags']));
+        $this->assertEquals(
+            require(__DIR__ . '/data/test-find-post.php'),
+            Post::find()->with('tags')->where(['id' => 2])->one()->toArray([], ['tags'])
+        );
     }
 
     public function testCreatePostWithTags()

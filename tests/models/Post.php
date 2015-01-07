@@ -16,15 +16,12 @@ use creocoder\taggable\TaggableBehavior;
  * @property string $title
  * @property string $body
  *
+ * @property string $tagNames
+ *
  * @property Tag[] $tags
  */
 class Post extends \yii\db\ActiveRecord
 {
-    /**
-     * @var string
-     */
-    public $tagNames;
-
     /**
      * @inheritdoc
      */
