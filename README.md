@@ -32,10 +32,12 @@ Configure model as follows:
 ```php
 use creocoder\taggable\TaggableBehavior;
 
+/**
+ * ...
+ * @property string $tagNames
+ */
 class Post extends \yii\db\ActiveRecord
 {
-    public $tagNames;
-
     public function behaviors()
     {
         return [
