@@ -17,7 +17,7 @@ abstract class DatabaseTestCase extends \PHPUnit_Extensions_Database_TestCase
      */
     public function getConnection()
     {
-        return $this->createDefaultDBConnection(\Yii::$app->db->pdo);
+        return $this->createDefaultDBConnection(\Yii::$app->getDb()->pdo);
     }
 
     /**

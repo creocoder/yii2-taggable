@@ -8,6 +8,8 @@
 namespace tests;
 
 use tests\models\Post;
+use Yii;
+use yii\db\Connection;
 
 /**
  * TaggableBehaviorTest
@@ -84,5 +86,25 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
         $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-delete-post.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function setUpBeforeClass()
+    {
+        Yii::$app->set('db', [
+            'class' => Connection::className(),
+            'dsn' => 'sqlite::memory:',
+        ]);
+
+        Yii::$app->getDb()->open();
+        $lines = explode(';', file_get_contents(__DIR__ . '/migrations/sqlite.sql'));
+
+        foreach ($lines as $line) {
+            if (trim($line) !== '') {
+                Yii::$app->getDb()->pdo->exec($line);
+            }
+        }
     }
 }
