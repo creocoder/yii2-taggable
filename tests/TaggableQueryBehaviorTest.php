@@ -40,6 +40,30 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
         $this->assertEquals(require(__DIR__ . '/data/test-find-posts-any-tag-names.php'), $data);
     }
 
+    public function testFindPostsAllTagNames()
+    {
+        $data = [];
+        $models = Post::find()->with('tags')->allTagNames('tag3, tag3, , tag4')->all();
+
+        foreach ($models as $model) {
+            $data[] = $model->toArray([], ['tags']);
+        }
+
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-names.php'), $data);
+    }
+
+    public function testFindPostsAllTagNamesAsArray()
+    {
+        $data = [];
+        $models = Post::find()->with('tags')->allTagNames(['tag3', 'tag3', '', 'tag4'])->all();
+
+        foreach ($models as $model) {
+            $data[] = $model->toArray([], ['tags']);
+        }
+
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-names.php'), $data);
+    }
+
     /**
      * @inheritdoc
      */
