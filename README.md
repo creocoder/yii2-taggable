@@ -70,7 +70,9 @@ class Post extends \yii\db\ActiveRecord
 
 ## Usage
 
-### Set tags
+### Setting tags to the entity
+
+To set tags to the entity
 
 ```php
 $post = new Post();
@@ -82,7 +84,9 @@ $post->tagNames = 'foo, bar, baz';
 $post->tagNames = ['foo', 'bar', 'baz'];
 ```
 
-### Add tags
+### Adding tags to the entity
+
+To add tags to the entity
 
 ```php
 $post = Post::findOne(1);
@@ -94,7 +98,9 @@ $post->addTagNames('bar, baz');
 $post->addTagNames(['bar', 'baz']);
 ```
 
-### Remove tags
+### Remove tags from the entity
+
+To remove tags from the entity
 
 ```php
 $post = Post::findOne(1);
@@ -106,7 +112,9 @@ $post->removeTagNames('bar, baz');
 $post->removeTagNames(['bar', 'baz']);
 ```
 
-### Reading tags
+### Getting tags from the entity
+
+To get tags from the entity
 
 ```php
 $posts = Post::find()->with('tags')->all();
@@ -115,6 +123,6 @@ foreach ($posts as $post) {
 }
 ```
 
-### Search by tags
+### Search entities by tags
 
 TBD.
