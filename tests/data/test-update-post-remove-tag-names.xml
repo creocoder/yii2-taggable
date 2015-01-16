@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <post id="1" title="Post title 1" body="Post body 1"/>
+    <post id="2" title="Updated post title 2" body="Updated post body 2"/>
+    <post id="3" title="Post title 3" body="Post body 3"/>
+    <tag id="1" name="tag1" frequency="1"/>
+    <tag id="2" name="tag2" frequency="1"/>
+    <tag id="3" name="tag3" frequency="3"/>
+    <tag id="4" name="tag4" frequency="1"/>
+    <tag id="5" name="tag5" frequency="1"/>
+    <post_tag_assn post_id="1" tag_id="1"/>
+    <post_tag_assn post_id="1" tag_id="2"/>
+    <post_tag_assn post_id="1" tag_id="3"/>
+    <post_tag_assn post_id="2" tag_id="3"/>
+    <post_tag_assn post_id="3" tag_id="3"/>
+    <post_tag_assn post_id="3" tag_id="4"/>
+    <post_tag_assn post_id="3" tag_id="5"/>
+</dataset>

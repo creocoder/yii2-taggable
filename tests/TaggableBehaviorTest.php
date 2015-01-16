@@ -162,6 +162,32 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
+    public function testUpdatePostRemoveTagNames()
+    {
+        $post = Post::findOne(2);
+        $post->title = 'Updated post title 2';
+        $post->body = 'Updated post body 2';
+        $post->removeTagNames('tag2, tag2, , tag4');
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-names.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    public function testUpdatePostRemoveTagNamesAsArray()
+    {
+        $post = Post::findOne(2);
+        $post->title = 'Updated post title 2';
+        $post->body = 'Updated post body 2';
+        $post->removeTagNames(['tag2', 'tag2', '', 'tag4']);
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-names.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
     public function testDeletePost()
     {
         $post = Post::findOne(2);
