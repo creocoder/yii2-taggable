@@ -8,6 +8,7 @@
 namespace creocoder\taggable;
 
 use yii\base\Behavior;
+use yii\db\Expression;
 
 /**
  * TaggableQueryBehavior
@@ -34,5 +35,17 @@ class TaggableQueryBehavior extends Behavior
             ->addGroupBy(array_map(function ($pk) use ($model) { return $model->tableName() . '.' . $pk; }, $model->primaryKey()));
 
         return $this->owner;
+    }
+
+    /**
+     * Gets entities by all tags.
+     * @param string|string[] $names
+     * @return \yii\db\ActiveQuery the owner
+     */
+    public function allTagNames($names)
+    {
+        $model = new $this->owner->modelClass();
+
+        return $this->anyTagNames($names)->andHaving(new Expression('COUNT(*) = ' . count($model->filterTagNames($names))));
     }
 }
