@@ -109,8 +109,10 @@ $post->removeTagNames(['bar', 'baz']);
 ### Reading tags
 
 ```php
-$post = Post::findOne(1);
-$tagNames = $post->tagNames;
+$posts = Post::find()->with('tags')->all();
+foreach ($posts as $post) {
+    echo $post->tagNames;
+}
 ```
 
 ### Search by tags
