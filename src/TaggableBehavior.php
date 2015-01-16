@@ -69,12 +69,7 @@ class TaggableBehavior extends Behavior
      */
     public function setTagNames($names)
     {
-        $this->_tagNames = array_unique(preg_split(
-            '/\s*,\s*/u',
-            preg_replace('/\s+/u', ' ', is_array($names) ? implode(',', $names) : $names),
-            -1,
-            PREG_SPLIT_NO_EMPTY
-        ));
+        $this->_tagNames = array_unique($this->filterTagNames($names));
     }
 
     /**
@@ -172,5 +167,19 @@ class TaggableBehavior extends Behavior
         foreach ($this->owner->{$this->relation} as $tag) {
             $this->_tagNames[] = $tag->getAttribute($this->name);
         }
+    }
+
+    /**
+     * @param string|string[] $names
+     * @return string[]
+     */
+    protected function filterTagNames($names)
+    {
+        return preg_split(
+            '/\s*,\s*/u',
+            preg_replace('/\s+/u', ' ', is_array($names) ? implode(',', $names) : $names),
+            -1,
+            PREG_SPLIT_NO_EMPTY
+        );
     }
 }
