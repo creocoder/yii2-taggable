@@ -146,6 +146,8 @@ foreach ($posts as $post) {
 
 ### Search entities by any tags
 
+To search entities by any tags
+
 ```php
 // through string
 $posts = Post::find()->anyTagNames('foo, bar')->all();
@@ -156,4 +158,12 @@ $posts = Post::find()->anyTagNames(['foo', 'bar'])->all();
 
 ### Search entities by all tags
 
-TBD.
+To search entities by all tags
+
+```php
+// through string
+$posts = Post::find()->allTagNames('foo, bar')->all();
+
+// through array
+$posts = Post::find()->allTagNames(['foo', 'bar'])->all();
+```
