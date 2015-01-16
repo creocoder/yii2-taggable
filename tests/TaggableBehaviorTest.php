@@ -16,12 +16,16 @@ use yii\db\Connection;
  */
 class TaggableBehaviorTest extends DatabaseTestCase
 {
-    public function testFindPost()
+    public function testFindPosts()
     {
-        $this->assertEquals(
-            require(__DIR__ . '/data/test-find-post.php'),
-            Post::find()->with('tags')->where(['id' => 2])->one()->toArray([], ['tags'])
-        );
+        $data = [];
+        $models = Post::find()->with('tags')->all();
+
+        foreach ($models as $model) {
+            $data[] = $model->toArray([], ['tags']);
+        }
+
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts.php'), $data);
     }
 
     public function testCreatePost()
