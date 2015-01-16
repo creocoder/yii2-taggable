@@ -70,4 +70,49 @@ class Post extends \yii\db\ActiveRecord
 
 ## Usage
 
+### Set tags
+
+```php
+$post = new Post();
+
+// through string
+$post->tagNames = 'foo, bar, baz';
+
+// through array
+$post->tagNames = ['foo', 'bar', 'baz'];
+```
+
+### Add tags
+
+```php
+$post = Post::findOne(1);
+
+// through string
+$post->addTagNames('bar, baz');
+
+// through array
+$post->addTagNames(['bar', 'baz']);
+```
+
+### Remove tags
+
+```php
+$post = Post::findOne(1);
+
+// through string
+$post->removeTagNames('bar, baz');
+
+// through array
+$post->removeTagNames(['bar', 'baz']);
+```
+
+### Reading tags
+
+```php
+$post = Post::findOne(1);
+$tagNames = $post->tagNames;
+```
+
+### Search by tags
+
 TBD.
