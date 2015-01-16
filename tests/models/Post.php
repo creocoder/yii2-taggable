@@ -62,6 +62,14 @@ class Post extends \yii\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public static function find()
+    {
+        return new PostQuery(get_called_class());
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getTags()
