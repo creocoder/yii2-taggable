@@ -63,13 +63,13 @@ class TaggableBehavior extends Behavior
     }
 
     /**
-     * @param string|string[] $value
+     * @param string|string[] $names
      */
-    public function setTagNames($value)
+    public function setTagNames($names)
     {
         $this->_tagNames = array_unique(preg_split(
             '/\s*,\s*/u',
-            preg_replace('/\s+/u', ' ', is_array($value) ? implode(',', $value) : $value),
+            preg_replace('/\s+/u', ' ', is_array($names) ? implode(',', $names) : $names),
             -1,
             PREG_SPLIT_NO_EMPTY
         ));
@@ -142,9 +142,8 @@ class TaggableBehavior extends Behavior
         $pivot = $relation->via->from[0];
         /* @var ActiveRecord $class */
         $class = $relation->modelClass;
-        $query = new Query();
 
-        $pks = $query
+        $pks = (new Query())
             ->select(current($relation->link))
             ->from($pivot)
             ->where([key($relation->via->link) => $this->owner->getPrimaryKey()])
