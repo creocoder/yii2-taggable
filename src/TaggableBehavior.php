@@ -23,15 +23,15 @@ class TaggableBehavior extends Behavior
     /**
      * @var string
      */
-    public $relation = 'tags';
+    public $tagRelation = 'tags';
     /**
      * @var string
      */
-    public $name = 'name';
+    public $tagNameAttribute = 'name';
     /**
      * @var string
      */
-    public $frequency = 'frequency';
+    public $tagFrequencyAttribute = 'frequency';
     /**
      * @var array
      */
@@ -57,7 +57,7 @@ class TaggableBehavior extends Behavior
     {
         if (!$this->owner->getIsNewRecord()
             && $this->_tagNames === null
-            && !$this->owner->isRelationPopulated($this->relation)) {
+            && !$this->owner->isRelationPopulated($this->tagRelation)) {
             $this->populateTagNames();
         }
 
@@ -99,7 +99,7 @@ class TaggableBehavior extends Behavior
      */
     public function afterFind()
     {
-        if (!$this->owner->isRelationPopulated($this->relation)) {
+        if (!$this->owner->isRelationPopulated($this->tagRelation)) {
             return;
         }
 
@@ -119,23 +119,23 @@ class TaggableBehavior extends Behavior
             $this->beforeDelete();
         }
 
-        $relation = $this->owner->getRelation($this->relation);
-        $pivot = $relation->via->from[0];
+        $tagRelation = $this->owner->getRelation($this->tagRelation);
+        $pivot = $tagRelation->via->from[0];
         /* @var ActiveRecord $class */
-        $class = $relation->modelClass;
+        $class = $tagRelation->modelClass;
         $rows = [];
 
         foreach ($this->_tagNames as $name) {
             /* @var ActiveRecord $tag */
-            $tag = $class::findOne([$this->name => $name]);
+            $tag = $class::findOne([$this->tagNameAttribute => $name]);
 
             if ($tag === null) {
                 $tag = new $class();
-                $tag->setAttribute($this->name, $name);
+                $tag->setAttribute($this->tagNameAttribute, $name);
             }
 
-            $frequency = $tag->getAttribute($this->frequency);
-            $tag->setAttribute($this->frequency, ++$frequency);
+            $frequency = $tag->getAttribute($this->tagFrequencyAttribute);
+            $tag->setAttribute($this->tagFrequencyAttribute, ++$frequency);
 
             if (!$tag->save()) {
                 continue;
@@ -147,7 +147,7 @@ class TaggableBehavior extends Behavior
         if (!empty($rows)) {
             $this->owner->getDb()
                 ->createCommand()
-                ->batchInsert($pivot, [key($relation->via->link), current($relation->link)], $rows)
+                ->batchInsert($pivot, [key($tagRelation->via->link), current($tagRelation->link)], $rows)
                 ->execute();
         }
     }
@@ -157,24 +157,24 @@ class TaggableBehavior extends Behavior
      */
     public function beforeDelete()
     {
-        $relation = $this->owner->getRelation($this->relation);
-        $pivot = $relation->via->from[0];
+        $tagRelation = $this->owner->getRelation($this->tagRelation);
+        $pivot = $tagRelation->via->from[0];
         /* @var ActiveRecord $class */
-        $class = $relation->modelClass;
+        $class = $tagRelation->modelClass;
 
         $pks = (new Query())
-            ->select(current($relation->link))
+            ->select(current($tagRelation->link))
             ->from($pivot)
-            ->where([key($relation->via->link) => $this->owner->getPrimaryKey()])
+            ->where([key($tagRelation->via->link) => $this->owner->getPrimaryKey()])
             ->column($this->owner->getDb());
 
         if (!empty($pks)) {
-            $class::updateAllCounters([$this->frequency => -1], ['in', $class::primaryKey(), $pks]);
+            $class::updateAllCounters([$this->tagFrequencyAttribute => -1], ['in', $class::primaryKey(), $pks]);
         }
 
         $this->owner->getDb()
             ->createCommand()
-            ->delete($pivot, [key($relation->via->link) => $this->owner->getPrimaryKey()])
+            ->delete($pivot, [key($tagRelation->via->link) => $this->owner->getPrimaryKey()])
             ->execute();
     }
 
@@ -186,8 +186,8 @@ class TaggableBehavior extends Behavior
         $this->_tagNames = [];
 
         /* @var ActiveRecord $tag */
-        foreach ($this->owner->{$this->relation} as $tag) {
-            $this->_tagNames[] = $tag->getAttribute($this->name);
+        foreach ($this->owner->{$this->tagRelation} as $tag) {
+            $this->_tagNames[] = $tag->getAttribute($this->tagNameAttribute);
         }
     }
 
