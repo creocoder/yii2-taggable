@@ -77,11 +77,10 @@ class TaggableBehavior extends Behavior
      */
     public function addTagNames($names)
     {
-        if ($this->_tagNames === null) {
-            $this->setTagNames($names);
-        } else {
-            $this->_tagNames = array_unique(array_merge($this->_tagNames, $this->filterTagNames($names)));
-        }
+        $this->_tagNames = array_unique(array_merge(
+            explode(', ', $this->getTagNames()),
+            $this->filterTagNames($names)
+        ));
     }
 
     /**
@@ -89,17 +88,10 @@ class TaggableBehavior extends Behavior
      */
     public function removeTagNames($names)
     {
-        if (!$this->owner->getIsNewRecord()
-            && $this->_tagNames === null
-            && !$this->owner->isRelationPopulated($this->relation)) {
-            $this->populateTagNames();
-        }
-
-        if ($this->_tagNames === null) {
-            return;
-        }
-
-        $this->_tagNames = array_diff($this->_tagNames, $this->filterTagNames($names));
+        $this->_tagNames = array_diff(
+            explode(', ', $this->getTagNames()),
+            $this->filterTagNames($names)
+        );
     }
 
     /**
