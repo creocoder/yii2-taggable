@@ -49,7 +49,22 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-with-tags.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    public function testCreatePostAddTagNames()
+    {
+        $post = new Post([
+            'title' => 'New post title',
+            'body' => 'New post body',
+        ]);
+
+        $post->addTagNames('tag4, tag4, tag5, , tag6');
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-with-tags.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
@@ -74,7 +89,20 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-with-tags.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    public function testUpdatePostAddTagNames()
+    {
+        $post = Post::findOne(2);
+        $post->title = 'Updated post title 2';
+        $post->body = 'Updated post body 2';
+        $post->addTagNames('tag3, tag3, tag4, , tag6');
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-with-tags.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
