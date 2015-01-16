@@ -55,7 +55,9 @@ class TaggableBehavior extends Behavior
      */
     public function getTagNames()
     {
-        if ($this->_tagNames === null && !$this->owner->isRelationPopulated($this->relation)) {
+        if (!$this->owner->getIsNewRecord()
+            && $this->_tagNames === null
+            && !$this->owner->isRelationPopulated($this->relation)) {
             $this->populateTagNames();
         }
 
