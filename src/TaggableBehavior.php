@@ -73,6 +73,18 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @param string|string[] $names
+     */
+    public function addTagNames($names)
+    {
+        if ($this->_tagNames === null) {
+            $this->setTagNames($names);
+        } else {
+            $this->_tagNames = array_unique(array_merge($this->_tagNames, $this->filterTagNames($names)));
+        }
+    }
+
+    /**
      * @return void
      */
     public function afterFind()
