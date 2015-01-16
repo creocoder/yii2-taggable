@@ -19,6 +19,7 @@ use yii\base\Behavior;
 class TaggableQueryBehavior extends Behavior
 {
     /**
+     * Gets entities by any tags.
      * @param string|string[] $names
      * @return \yii\db\ActiveQuery the owner
      */
