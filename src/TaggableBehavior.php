@@ -85,6 +85,18 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @param string|string[] $names
+     */
+    public function removeTagNames($names)
+    {
+        if ($this->_tagNames === null) {
+            return;
+        }
+
+        $this->_tagNames = array_diff($this->_tagNames, $this->filterTagNames($names));
+    }
+
+    /**
      * @return void
      */
     public function afterFind()
