@@ -27,7 +27,7 @@ to the `require` section of your `composer.json` file.
 
 ## Configuring
 
-Configure model as follows:
+Configure model as follows
 
 ```php
 use creocoder\taggable\TaggableBehavior;
@@ -60,10 +60,31 @@ class Post extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function find()
+    {
+        return new PostQuery(get_called_class());
+    }
+
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
             ->viaTable('post_tag_assn', ['post_id' => 'id']);
+    }
+}
+```
+
+Configure query class as follows
+
+```php
+use creocoder\taggable\TaggableQueryBehavior;
+
+class PostQuery extends \yii\db\ActiveQuery
+{
+    public function behaviors()
+    {
+        return [
+            TaggableQueryBehavior::className(),
+        ];
     }
 }
 ```
@@ -123,6 +144,16 @@ foreach ($posts as $post) {
 }
 ```
 
-### Search entities by tags
+### Search entities by any tags
+
+```php
+// through string
+$posts = Post::find()->anyTagNames('foo, bar')->all();
+
+// through array
+$posts = Post::find()->anyTagNames(['foo', 'bar'])->all();
+```
+
+### Search entities by all tags
 
 TBD.
