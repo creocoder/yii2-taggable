@@ -24,7 +24,21 @@ class TaggableBehaviorTest extends DatabaseTestCase
         );
     }
 
-    public function testCreatePostWithTags()
+    public function testCreatePost()
+    {
+        $post = new Post([
+            'title' => 'New post title',
+            'body' => 'New post body',
+        ]);
+
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    public function testCreatePostSetTagNames()
     {
         $post = new Post([
             'title' => 'New post title',
@@ -35,25 +49,23 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-with-tags.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-names.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testCreatePostWithoutTags()
+    public function testUpdatePost()
     {
-        $post = new Post([
-            'title' => 'New post title',
-            'body' => 'New post body',
-        ]);
-
+        $post = Post::findOne(2);
+        $post->title = 'Updated post title 2';
+        $post->body = 'Updated post body 2';
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-without-tags.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostWithTags()
+    public function testUpdatePostSetTagNames()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
@@ -62,19 +74,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-with-tags.xml');
-        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
-    }
-
-    public function testUpdatePostWithoutTags()
-    {
-        $post = Post::findOne(2);
-        $post->title = 'Updated post title 2';
-        $post->body = 'Updated post body 2';
-        $this->assertTrue($post->save());
-
-        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-without-tags.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-names.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
