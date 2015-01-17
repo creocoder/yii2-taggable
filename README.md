@@ -167,3 +167,15 @@ $posts = Post::find()->allTagNames('foo, bar')->all();
 // through array
 $posts = Post::find()->allTagNames(['foo', 'bar'])->all();
 ```
+
+### Search entities related by tags
+
+To search entities related by tags
+
+```php
+// through string
+$posts = Post::find()->relatedByTagNames('foo, bar')->all();
+
+// through array
+$posts = Post::find()->relatedByTagNames(['foo', 'bar'])->all();
+```
