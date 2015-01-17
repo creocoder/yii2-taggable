@@ -48,4 +48,14 @@ class TaggableQueryBehavior extends Behavior
 
         return $this->anyTagNames($names)->andHaving(new Expression('COUNT(*) = ' . count($model->filterTagNames($names))));
     }
+
+    /**
+     * Gets entities related by tags.
+     * @param string|string[] $names
+     * @return \yii\db\ActiveQuery the owner
+     */
+    public function relatedByTagNames($names)
+    {
+        return $this->anyTagNames($names)->addOrderBy(new Expression('COUNT(*) DESC'));
+    }
 }
