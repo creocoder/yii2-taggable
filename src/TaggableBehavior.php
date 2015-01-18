@@ -33,7 +33,7 @@ class TaggableBehavior extends Behavior
      */
     public $tagFrequencyAttribute = 'frequency';
     /**
-     * @var array
+     * @var string[]
      */
     private $_tagNames;
 
