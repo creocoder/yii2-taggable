@@ -144,6 +144,20 @@ foreach ($posts as $post) {
 }
 ```
 
+### Checking for tags in the entity
+
+To check for tags in the entity
+
+```php
+$post = Post::findOne(1);
+
+// through string
+$result = $post->hasTagNames('foo, bar');
+
+// through array
+$result = $post->hasTagNames(['foo', 'bar']);
+```
+
 ### Search entities by any tags
 
 To search entities by any tags
