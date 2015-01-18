@@ -196,7 +196,9 @@ class TaggableBehaviorTest extends DatabaseTestCase
     {
         $post = Post::findOne(2);
         $this->assertTrue($post->hasTagNames('tag2, tag2, , tag4'));
+        $this->assertTrue($post->hasTagNames(['tag2', 'tag2', '', 'tag4']));
         $this->assertFalse($post->hasTagNames('tag3, tag3, , tag5'));
+        $this->assertFalse($post->hasTagNames(['tag3', 'tag3', '', 'tag5']));
     }
 
     public function testDeletePost()
