@@ -95,6 +95,23 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @param string|string[] $names
+     * @return boolean
+     */
+    public function hasTagNames($names)
+    {
+        $tagNames = explode(', ', $this->getTagNames());
+
+        foreach ($this->filterTagNames($names) as $name) {
+            if (!in_array($name, $tagNames)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @return void
      */
     public function afterFind()
