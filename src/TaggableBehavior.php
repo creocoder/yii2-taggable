@@ -29,7 +29,7 @@ class TaggableBehavior extends Behavior
      */
     public $tagNameAttribute = 'name';
     /**
-     * @var string
+     * @var string|false
      */
     public $tagFrequencyAttribute = 'frequency';
     /**
@@ -151,8 +151,10 @@ class TaggableBehavior extends Behavior
                 $tag->setAttribute($this->tagNameAttribute, $name);
             }
 
-            $frequency = $tag->getAttribute($this->tagFrequencyAttribute);
-            $tag->setAttribute($this->tagFrequencyAttribute, ++$frequency);
+            if ($this->tagFrequencyAttribute !== false) {
+                $frequency = $tag->getAttribute($this->tagFrequencyAttribute);
+                $tag->setAttribute($this->tagFrequencyAttribute, ++$frequency);
+            }
 
             if (!$tag->save()) {
                 continue;
@@ -176,17 +178,20 @@ class TaggableBehavior extends Behavior
     {
         $tagRelation = $this->owner->getRelation($this->tagRelation);
         $pivot = $tagRelation->via->from[0];
-        /* @var ActiveRecord $class */
-        $class = $tagRelation->modelClass;
 
-        $pks = (new Query())
-            ->select(current($tagRelation->link))
-            ->from($pivot)
-            ->where([key($tagRelation->via->link) => $this->owner->getPrimaryKey()])
-            ->column($this->owner->getDb());
+        if ($this->tagFrequencyAttribute !== false) {
+            /* @var ActiveRecord $class */
+            $class = $tagRelation->modelClass;
 
-        if (!empty($pks)) {
-            $class::updateAllCounters([$this->tagFrequencyAttribute => -1], ['in', $class::primaryKey(), $pks]);
+            $pks = (new Query())
+                ->select(current($tagRelation->link))
+                ->from($pivot)
+                ->where([key($tagRelation->via->link) => $this->owner->getPrimaryKey()])
+                ->column($this->owner->getDb());
+
+            if (!empty($pks)) {
+                $class::updateAllCounters([$this->tagFrequencyAttribute => -1], ['in', $class::primaryKey(), $pks]);
+            }
         }
 
         $this->owner->getDb()
