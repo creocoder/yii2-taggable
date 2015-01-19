@@ -41,7 +41,13 @@ class Post extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TaggableBehavior::className(),
+            'taggable' => [
+                'class' => TaggableBehavior::className(),
+                // 'tagNamesAsArray' => false,
+                // 'tagRelation' => 'tags',
+                // 'tagNameAttribute' => 'name',
+                // 'tagFrequencyAttribute' => 'frequency',
+            ],
         ];
     }
 
@@ -140,9 +146,15 @@ To get tags from the entity
 ```php
 $posts = Post::find()->with('tags')->all();
 foreach ($posts as $post) {
-    echo $post->tagNames;
+    // as string
+    $tagNames = $post->tagNames;
+
+    // as array
+    $tagNamesAsArray = $post->getTagNames(true);
 }
 ```
+
+Return type of `TaggableBehavior::getTagNames` can also be configured globally via `TaggableBehavior::tagNamesAsArray` property.
 
 ### Checking for tags in the entity
 
