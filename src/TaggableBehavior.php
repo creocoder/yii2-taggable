@@ -21,6 +21,10 @@ use yii\db\Query;
 class TaggableBehavior extends Behavior
 {
     /**
+     * @var boolean
+     */
+    public $tagNamesAsArray = false;
+    /**
      * @var string
      */
     public $tagRelation = 'tags';
@@ -51,9 +55,10 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @param boolean|null $asArray
      * @return string
      */
-    public function getTagNames()
+    public function getTagNames($asArray = null)
     {
         if (!$this->owner->getIsNewRecord()
             && $this->_tagNames === null
@@ -61,7 +66,15 @@ class TaggableBehavior extends Behavior
             $this->populateTagNames();
         }
 
-        return $this->_tagNames === null ? '' : implode(', ', $this->_tagNames);
+        if ($asArray === null) {
+            $asArray = $this->tagNamesAsArray;
+        }
+
+        if ($asArray) {
+            return $this->_tagNames === null ? [] : $this->_tagNames;
+        } else {
+            return $this->_tagNames === null ? '' : implode(', ', $this->_tagNames);
+        }
     }
 
     /**
@@ -77,10 +90,7 @@ class TaggableBehavior extends Behavior
      */
     public function addTagNames($names)
     {
-        $this->_tagNames = array_unique(array_merge(
-            explode(', ', $this->getTagNames()),
-            $this->filterTagNames($names)
-        ));
+        $this->_tagNames = array_unique(array_merge($this->getTagNames(true), $this->filterTagNames($names)));
     }
 
     /**
@@ -88,10 +98,7 @@ class TaggableBehavior extends Behavior
      */
     public function removeTagNames($names)
     {
-        $this->_tagNames = array_diff(
-            explode(', ', $this->getTagNames()),
-            $this->filterTagNames($names)
-        );
+        $this->_tagNames = array_diff($this->getTagNames(true), $this->filterTagNames($names));
     }
 
     /**
@@ -100,7 +107,7 @@ class TaggableBehavior extends Behavior
      */
     public function hasTagNames($names)
     {
-        $tagNames = explode(', ', $this->getTagNames());
+        $tagNames = $this->getTagNames(true);
 
         foreach ($this->filterTagNames($names) as $name) {
             if (!in_array($name, $tagNames)) {
