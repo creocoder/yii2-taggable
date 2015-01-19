@@ -56,7 +56,7 @@ class TaggableBehavior extends Behavior
 
     /**
      * @param boolean|null $asArray
-     * @return string
+     * @return string|string[]
      */
     public function getTagNames($asArray = null)
     {
