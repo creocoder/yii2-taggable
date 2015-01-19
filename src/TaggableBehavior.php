@@ -67,7 +67,7 @@ class TaggableBehavior extends Behavior
     /**
      * @return array|string[]
      */
-    public function getTagNamesArray()
+    public function getTagNamesAsArray()
     {
         if (!$this->owner->getIsNewRecord()
             && $this->_tagNames === null
