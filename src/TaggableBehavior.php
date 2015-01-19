@@ -78,6 +78,20 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * @return array|string[]
+     */
+    public function getTagNamesAsArray()
+    {
+        if (!$this->owner->getIsNewRecord()
+            && $this->_tagNames === null
+            && !$this->owner->isRelationPopulated($this->tagRelation)) {
+            $this->populateTagNames();
+        }
+
+        return $this->_tagNames === null ? [] : $this->_tagNames;
+    }
+
+    /**
      * @param string|string[] $names
      */
     public function setTagNames($names)
