@@ -163,11 +163,9 @@ class TaggableBehavior extends Behavior
                 $tag->setAttribute($this->tagFrequencyAttribute, ++$frequency);
             }
 
-            if (!$tag->save()) {
-                continue;
+            if ($tag->save()) {
+                $rows[] = [$this->owner->getPrimaryKey(), $tag->getPrimaryKey()];
             }
-
-            $rows[] = [$this->owner->getPrimaryKey(), $tag->getPrimaryKey()];
         }
 
         if (!empty($rows)) {
