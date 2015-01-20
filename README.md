@@ -145,6 +145,7 @@ To get tags from the entity
 
 ```php
 $posts = Post::find()->with('tags')->all();
+
 foreach ($posts as $post) {
     // as string
     $tagNames = $post->tagNames;
@@ -154,7 +155,7 @@ foreach ($posts as $post) {
 }
 ```
 
-Return type of `TaggableBehavior::getTagNames` can also be configured globally via `TaggableBehavior::tagNamesAsArray` property.
+Return type of `getTagNames` can also be configured globally via `tagNamesAsArray` property.
 
 ### Checking for tags in the entity
 
