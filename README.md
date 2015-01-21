@@ -25,6 +25,60 @@ or add
 
 to the `require` section of your `composer.json` file.
 
+## Migrations
+
+Run the following command
+
+```bash
+$ yii migrate/create create_post_table
+```
+
+Open the `/path/to/migrations/m_xxxxxx_xxxxxx_create_post_table.php` file,
+inside the `up()` method add the following
+
+```php
+$this->createTable('{{%post}}', [
+    'id' => Schema::TYPE_PK,
+    'title' => Schema::TYPE_STRING . ' NOT NULL',
+    'body' => Schema::TYPE_TEXT . ' NOT NULL',
+]);
+```
+
+Run the following command
+
+```bash
+$ yii migrate/create create_tag_table
+```
+
+Open the `/path/to/migrations/m_xxxxxx_xxxxxx_create_tag_table.php` file,
+inside the `up()` method add the following
+
+```php
+$this->createTable('{{%tag}}', [
+    'id' => Schema::TYPE_PK,
+    'name' => Schema::TYPE_STRING . ' NOT NULL',
+    'frequency' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+]);
+```
+
+Run the following command
+
+```bash
+$ yii migrate/create create_post_tag_assn_table
+```
+
+Open the `/path/to/migrations/m_xxxxxx_xxxxxx_create_post_tag_assn_table.php` file,
+inside the `up()` method add the following
+
+```php
+$this->createTable('{{%post_tag_assn}}', [
+    'post_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+    'tag_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+]);
+
+$this->addPrimaryKey('', '{{%post_tag_assn}}', ['post_id', 'tag_id']);
+```
+
 ## Configuring
 
 Configure model as follows
