@@ -3,6 +3,7 @@
 [![Build Status](https://img.shields.io/travis/creocoder/yii2-taggable/master.svg?style=flat-square)](https://travis-ci.org/creocoder/yii2-taggable)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/creocoder/yii2-taggable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/creocoder/yii2-taggable/?branch=master)
 [![Code Quality](https://img.shields.io/scrutinizer/g/creocoder/yii2-taggable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/creocoder/yii2-taggable/?branch=master)
+[![Packagist Version](https://img.shields.io/packagist/v/creocoder/yii2-taggable.svg?style=flat-square)](https://packagist.org/packages/creocoder/yii2-taggable)
 
 A modern taggable behavior for the Yii framework.
 
