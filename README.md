@@ -13,13 +13,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```bash
-$ php composer.phar require creocoder/yii2-taggable:dev-master
+$ php composer.phar require creocoder/yii2-taggable
 ```
 
 or add
 
 ```
-"creocoder/yii2-taggable": "dev-master"
+"creocoder/yii2-taggable": "*"
 ```
 
 to the `require` section of your `composer.json` file.
