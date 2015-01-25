@@ -192,7 +192,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testPosHasTagNames()
+    public function testPostHasTagNames()
     {
         $post = Post::findOne(2);
         $this->assertTrue($post->hasTagNames('tag2, tag2, , tag4'));
