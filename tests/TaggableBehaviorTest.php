@@ -19,10 +19,10 @@ class TaggableBehaviorTest extends DatabaseTestCase
     public function testFindPosts()
     {
         $data = [];
-        $models = Post::find()->with('tags')->all();
+        $posts = Post::find()->with('tags')->all();
 
-        foreach ($models as $model) {
-            $data[] = $model->toArray([], ['tags']);
+        foreach ($posts as $post) {
+            $data[] = $post->toArray([], ['tags']);
         }
 
         $this->assertEquals(require(__DIR__ . '/data/test-find-posts.php'), $data);
