@@ -28,6 +28,12 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertEquals(require(__DIR__ . '/data/test-find-posts.php'), $data);
     }
 
+    public function testFindPost()
+    {
+        $post = Post::findOne(2);
+        $this->assertEquals('tag2, tag3, tag4', $post->tagNames);
+    }
+
     public function testCreatePost()
     {
         $post = new Post([
