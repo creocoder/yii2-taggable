@@ -133,6 +133,8 @@ class Post extends \yii\db\ActiveRecord
 }
 ```
 
+Model `Tag` can be generated using Gii.
+
 Configure query class as follows
 
 ```php
