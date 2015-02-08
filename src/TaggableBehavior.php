@@ -33,6 +33,10 @@ class TaggableBehavior extends Behavior
      */
     public $tagNameAttribute = 'name';
     /**
+     * @var string
+     */
+    public $tagSlugAttribute = 'slug';
+    /**
      * @var string|false
      */
     public $tagFrequencyAttribute = 'frequency';

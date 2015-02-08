@@ -100,6 +100,7 @@ class Post extends \yii\db\ActiveRecord
                 // 'tagNamesAsArray' => false,
                 // 'tagRelation' => 'tags',
                 // 'tagNameAttribute' => 'name',
+                // 'tagSlugAttribute' => 'slug',
                 // 'tagFrequencyAttribute' => 'frequency',
             ],
         ];
@@ -261,6 +262,42 @@ $posts = Post::find()->relatedByTagNames('foo, bar')->all();
 
 // through array
 $posts = Post::find()->relatedByTagNames(['foo', 'bar'])->all();
+```
+
+### Search entities by any tags slugs
+
+To search entities by any tags slugs
+
+```php
+// through string
+$posts = Post::find()->anyTagSlugs('foo, bar')->all();
+
+// through array
+$posts = Post::find()->anyTagSlugs(['foo', 'bar'])->all();
+```
+
+### Search entities by all tags slugs
+
+To search entities by all tags slugs
+
+```php
+// through string
+$posts = Post::find()->allTagSlugs('foo, bar')->all();
+
+// through array
+$posts = Post::find()->allTagSlugs(['foo', 'bar'])->all();
+```
+
+### Search entities related by tags slugs
+
+To search entities related by tags slugs
+
+```php
+// through string
+$posts = Post::find()->relatedByTagSlugs('foo, bar')->all();
+
+// through array
+$posts = Post::find()->relatedByTagSlugs(['foo', 'bar'])->all();
 ```
 
 ## Donating
