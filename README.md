@@ -264,6 +264,10 @@ $posts = Post::find()->relatedByTagNames('foo, bar')->all();
 $posts = Post::find()->relatedByTagNames(['foo', 'bar'])->all();
 ```
 
+## Advanced usage
+
+If you are using `SluggableBehavior` in tags this functions could be useful for you.
+
 ### Search entities by any tags slugs
 
 To search entities by any tags slugs
