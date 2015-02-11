@@ -86,7 +86,7 @@ class TaggableQueryBehavior extends Behavior
     {
         $model = new $this->owner->modelClass();
 
-        return $this->anyTagNames($slugs)->andHaving(new Expression('COUNT(*) = ' . count($model->filterTagNames($slugs))));
+        return $this->anyTagSlugs($slugs)->andHaving(new Expression('COUNT(*) = ' . count($model->filterTagNames($slugs))));
     }
 
     /**
@@ -96,6 +96,6 @@ class TaggableQueryBehavior extends Behavior
      */
     public function relatedByTagSlugs($slugs)
     {
-        return $this->anyTagNames($slugs)->addOrderBy(new Expression('COUNT(*) DESC'));
+        return $this->anyTagSlugs($slugs)->addOrderBy(new Expression('COUNT(*) DESC'));
     }
 }
