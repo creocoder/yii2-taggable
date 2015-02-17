@@ -21,19 +21,19 @@ use yii\db\Query;
 class TaggableBehavior extends Behavior
 {
     /**
-     * @var boolean
+     * @var boolean whether to return the tag names as array instead of string
      */
     public $tagNamesAsArray = false;
     /**
-     * @var string
+     * @var string the tags relation name
      */
     public $tagRelation = 'tags';
     /**
-     * @var string
+     * @var string the tags model name attribute name
      */
     public $tagNameAttribute = 'name';
     /**
-     * @var string|false
+     * @var string|false the tags model frequency attribute name
      */
     public $tagFrequencyAttribute = 'frequency';
     /**
@@ -55,6 +55,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Returns the tag names.
      * @param boolean|null $asArray
      * @return string|string[]
      */
@@ -78,6 +79,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Sets the tag names.
      * @param string|string[] $names
      */
     public function setTagNames($names)
@@ -86,6 +88,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Adds the tag names.
      * @param string|string[] $names
      */
     public function addTagNames($names)
@@ -94,6 +97,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Removes the tag names.
      * @param string|string[] $names
      */
     public function removeTagNames($names)
@@ -102,6 +106,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Returns a value indicating whether the tag names exists.
      * @param string|string[] $names
      * @return boolean
      */
@@ -206,6 +211,7 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Filters the tag names.
      * @param string|string[] $names
      * @return string[]
      */
