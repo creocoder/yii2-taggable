@@ -58,4 +58,44 @@ class TaggableQueryBehavior extends Behavior
     {
         return $this->anyTagNames($names)->addOrderBy(new Expression('COUNT(*) DESC'));
     }
+
+    /**
+     * Gets entities by any tags slugs.
+     * @param string|string[] $slugs
+     * @return \yii\db\ActiveQuery the owner
+     */
+    public function anyTagSlugs($slugs)
+    {
+        $model = new $this->owner->modelClass();
+        $tagClass = $model->getRelation($model->tagRelation)->modelClass;
+
+        $this->owner
+            ->innerJoinWith($model->tagRelation, false)
+            ->andWhere([$tagClass::tableName() . '.' . $model->tagSlugAttribute => $model->filterTagNames($slugs)])
+            ->addGroupBy(array_map(function ($pk) use ($model) { return $model->tableName() . '.' . $pk; }, $model->primaryKey()));
+
+        return $this->owner;
+    }
+
+    /**
+     * Gets entities by all tags slugs.
+     * @param string|string[] $slugs
+     * @return \yii\db\ActiveQuery the owner
+     */
+    public function allTagSlugs($slugs)
+    {
+        $model = new $this->owner->modelClass();
+
+        return $this->anyTagSlugs($slugs)->andHaving(new Expression('COUNT(*) = ' . count($model->filterTagNames($slugs))));
+    }
+
+    /**
+     * Gets entities related by tags slugs.
+     * @param string|string[] $names
+     * @return \yii\db\ActiveQuery the owner
+     */
+    public function relatedByTagSlugs($slugs)
+    {
+        return $this->anyTagSlugs($slugs)->addOrderBy(new Expression('COUNT(*) DESC'));
+    }
 }
