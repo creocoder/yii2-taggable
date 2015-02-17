@@ -20,7 +20,7 @@ $ php composer.phar require creocoder/yii2-taggable
 or add
 
 ```
-"creocoder/yii2-taggable": "*"
+"creocoder/yii2-taggable": "~1.0"
 ```
 
 to the `require` section of your `composer.json` file.
