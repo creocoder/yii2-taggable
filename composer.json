@@ -3,7 +3,8 @@
     "description": "The taggable behavior for the Yii framework",
     "keywords": [
         "yii2",
-        "taggable"
+        "taggable",
+        "tags"
     ],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
