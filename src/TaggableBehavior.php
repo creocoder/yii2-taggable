@@ -128,11 +128,9 @@ class TaggableBehavior extends Behavior
      */
     public function afterFind()
     {
-        if (!$this->owner->isRelationPopulated($this->tagRelation)) {
-            return;
+        if ($this->owner->isRelationPopulated($this->tagRelation)) {
+            $this->populateTagNames();
         }
-
-        $this->populateTagNames();
     }
 
     /**
