@@ -47,7 +47,6 @@ class TaggableBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_AFTER_FIND => 'afterFind',
             ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
             ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
@@ -61,10 +60,13 @@ class TaggableBehavior extends Behavior
      */
     public function getTagNames($asArray = null)
     {
-        if (!$this->owner->getIsNewRecord()
-            && $this->_tagNames === null
-            && !$this->owner->isRelationPopulated($this->tagRelation)) {
-            $this->populateTagNames();
+        if (!$this->owner->getIsNewRecord() && $this->_tagNames === null) {
+            $this->_tagNames = [];
+
+            /* @var ActiveRecord $tag */
+            foreach ($this->owner->{$this->tagRelation} as $tag) {
+                $this->_tagNames[] = $tag->getAttribute($this->tagNameAttribute);
+            }
         }
 
         if ($asArray === null) {
@@ -121,16 +123,6 @@ class TaggableBehavior extends Behavior
         }
 
         return true;
-    }
-
-    /**
-     * @return void
-     */
-    public function afterFind()
-    {
-        if ($this->owner->isRelationPopulated($this->tagRelation)) {
-            $this->populateTagNames();
-        }
     }
 
     /**
@@ -221,18 +213,5 @@ class TaggableBehavior extends Behavior
             -1,
             PREG_SPLIT_NO_EMPTY
         );
-    }
-
-    /**
-     * @return void
-     */
-    protected function populateTagNames()
-    {
-        $this->_tagNames = [];
-
-        /* @var ActiveRecord $tag */
-        foreach ($this->owner->{$this->tagRelation} as $tag) {
-            $this->_tagNames[] = $tag->getAttribute($this->tagNameAttribute);
-        }
     }
 }
