@@ -16,76 +16,76 @@ use yii\db\Connection;
  */
 class TaggableQueryBehaviorTest extends DatabaseTestCase
 {
-    public function testFindPostsAnyTagNames()
+    public function testFindPostsAnyTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->anyTagNames('tag1, tag1, , tag2')->all();
+        $models = Post::find()->with('tags')->anyTagValues('tag1, tag1, , tag2')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-any-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-any-tag-values.php'), $data);
     }
 
-    public function testFindPostsAnyTagNamesAsArray()
+    public function testFindPostsAnyTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->anyTagNames(['tag1', 'tag1', '', 'tag2'])->all();
+        $models = Post::find()->with('tags')->anyTagValues(['tag1', 'tag1', '', 'tag2'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-any-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-any-tag-values.php'), $data);
     }
 
-    public function testFindPostsAllTagNames()
+    public function testFindPostsAllTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->allTagNames('tag3, tag3, , tag4')->all();
+        $models = Post::find()->with('tags')->allTagValues('tag3, tag3, , tag4')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-values.php'), $data);
     }
 
-    public function testFindPostsAllTagNamesAsArray()
+    public function testFindPostsAllTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->allTagNames(['tag3', 'tag3', '', 'tag4'])->all();
+        $models = Post::find()->with('tags')->allTagValues(['tag3', 'tag3', '', 'tag4'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-all-tag-values.php'), $data);
     }
 
-    public function testFindPostsRelatedByTagNames()
+    public function testFindPostsRelatedByTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->relatedByTagNames('tag3, tag3, tag4, , tag5')->all();
+        $models = Post::find()->with('tags')->relatedByTagValues('tag3, tag3, tag4, , tag5')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-related-by-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-related-by-tag-values.php'), $data);
     }
 
-    public function testFindPostsRelatedByTagNamesAsArray()
+    public function testFindPostsRelatedByTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->relatedByTagNames(['tag3', 'tag3', 'tag4', '', 'tag5'])->all();
+        $models = Post::find()->with('tags')->relatedByTagValues(['tag3', 'tag3', 'tag4', '', 'tag5'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
         }
 
-        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-related-by-tag-names.php'), $data);
+        $this->assertEquals(require(__DIR__ . '/data/test-find-posts-related-by-tag-values.php'), $data);
     }
 
     /**

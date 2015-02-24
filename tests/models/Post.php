@@ -16,7 +16,7 @@ use creocoder\taggable\TaggableBehavior;
  * @property string $title
  * @property string $body
  *
- * @property string $tagNames
+ * @property string $tagValues
  *
  * @property Tag[] $tags
  */
@@ -47,7 +47,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'body'], 'required'],
-            ['tagNames', 'safe'],
+            ['tagValues', 'safe'],
         ];
     }
 

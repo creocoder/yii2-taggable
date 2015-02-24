@@ -31,7 +31,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
     public function testFindPost()
     {
         $post = Post::findOne(2);
-        $this->assertEquals('tag2, tag3, tag4', $post->tagNames);
+        $this->assertEquals('tag2, tag3, tag4', $post->tagValues);
     }
 
     public function testCreatePost()
@@ -48,63 +48,63 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testCreatePostSetTagNames()
+    public function testCreatePostSetTagValues()
     {
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
-            'tagNames' => 'tag4, tag4, tag5, , tag6',
+            'tagValues' => 'tag4, tag4, tag5, , tag6',
         ]);
 
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testCreatePostSetTagNamesAsArray()
+    public function testCreatePostSetTagValuesAsArray()
     {
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
-            'tagNames' => ['tag4', 'tag4', 'tag5', '', 'tag6'],
+            'tagValues' => ['tag4', 'tag4', 'tag5', '', 'tag6'],
         ]);
 
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-set-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testCreatePostAddTagNames()
+    public function testCreatePostAddTagValues()
     {
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
         ]);
 
-        $post->addTagNames('tag4, tag4, tag5, , tag6');
+        $post->addTagValues('tag4, tag4, tag5, , tag6');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-add-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-add-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testCreatePostAddTagNamesAsArray()
+    public function testCreatePostAddTagValuesAsArray()
     {
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
         ]);
 
-        $post->addTagNames(['tag4', 'tag4', 'tag5', '', 'tag6']);
+        $post->addTagValues(['tag4', 'tag4', 'tag5', '', 'tag6']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-add-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-create-post-add-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
@@ -120,91 +120,104 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostSetTagNames()
+    public function testUpdatePostSetTagValues()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->tagNames = 'tag3, tag3, tag4, , tag6';
+        $post->tagValues = 'tag3, tag3, tag4, , tag6';
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostSetTagNamesAsArray()
+    public function testUpdatePostSetTagValuesAsArray()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->tagNames = ['tag3', 'tag3', 'tag4', '', 'tag6'];
+        $post->tagValues = ['tag3', 'tag3', 'tag4', '', 'tag6'];
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-set-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostAddTagNames()
+    public function testUpdatePostAddTagValues()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->addTagNames('tag3, tag3, , tag6');
+        $post->addTagValues('tag3, tag3, , tag6');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-add-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-add-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostAddTagNamesAsArray()
+    public function testUpdatePostAddTagValuesAsArray()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->addTagNames(['tag3', 'tag3', '', 'tag6']);
+        $post->addTagValues(['tag3', 'tag3', '', 'tag6']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-add-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-add-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostRemoveTagNames()
+    public function testUpdatePostRemoveTagValues()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->removeTagNames('tag2, tag2, , tag4');
+        $post->removeTagValues('tag2, tag2, , tag4');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testUpdatePostRemoveTagNamesAsArray()
+    public function testUpdatePostRemoveTagValuesAsArray()
     {
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->removeTagNames(['tag2', 'tag2', '', 'tag4']);
+        $post->removeTagValues(['tag2', 'tag2', '', 'tag4']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
-        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-names.xml');
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-tag-values.xml');
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
-    public function testPostHasTagNames()
+    public function testUpdatePostRemoveAllTagValues()
     {
         $post = Post::findOne(2);
-        $this->assertTrue($post->hasTagNames('tag2, tag2, , tag4'));
-        $this->assertTrue($post->hasTagNames(['tag2', 'tag2', '', 'tag4']));
-        $this->assertFalse($post->hasTagNames('tag3, tag3, , tag5'));
-        $this->assertFalse($post->hasTagNames(['tag3', 'tag3', '', 'tag5']));
+        $post->title = 'Updated post title 2';
+        $post->body = 'Updated post body 2';
+        $post->removeAllTagValues();
+        $this->assertTrue($post->save());
+
+        $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
+        $expectedDataSet = $this->createFlatXMLDataSet(__DIR__ . '/data/test-update-post-remove-all-tag-values.xml');
+        $this->assertDataSetsEqual($expectedDataSet, $dataSet);
+    }
+
+    public function testPostHasTagValues()
+    {
+        $post = Post::findOne(2);
+        $this->assertTrue($post->hasTagValues('tag2, tag2, , tag4'));
+        $this->assertTrue($post->hasTagValues(['tag2', 'tag2', '', 'tag4']));
+        $this->assertFalse($post->hasTagValues('tag3, tag3, , tag5'));
+        $this->assertFalse($post->hasTagValues(['tag3', 'tag3', '', 'tag5']));
     }
 
     public function testDeletePost()
