@@ -21,17 +21,17 @@ use yii\db\Query;
 class TaggableBehavior extends Behavior
 {
     /**
-     * @var boolean whether to return the tag names as array instead of string
+     * @var boolean whether to return tags as array instead of string
      */
-    public $tagNamesAsArray = false;
+    public $tagValuesAsArray = false;
     /**
      * @var string the tags relation name
      */
     public $tagRelation = 'tags';
     /**
-     * @var string the tags model name attribute name
+     * @var string the tags model value attribute name
      */
-    public $tagNameAttribute = 'name';
+    public $tagValueAttribute = 'name';
     /**
      * @var string|false the tags model frequency attribute name
      */
@@ -39,7 +39,7 @@ class TaggableBehavior extends Behavior
     /**
      * @var string[]
      */
-    private $_tagNames;
+    private $_tagValues;
 
     /**
      * @inheritdoc
@@ -54,70 +54,78 @@ class TaggableBehavior extends Behavior
     }
 
     /**
-     * Returns the tag names.
+     * Returns tags.
      * @param boolean|null $asArray
      * @return string|string[]
      */
-    public function getTagNames($asArray = null)
+    public function getTagValues($asArray = null)
     {
-        if (!$this->owner->getIsNewRecord() && $this->_tagNames === null) {
-            $this->_tagNames = [];
+        if (!$this->owner->getIsNewRecord() && $this->_tagValues === null) {
+            $this->_tagValues = [];
 
             /* @var ActiveRecord $tag */
             foreach ($this->owner->{$this->tagRelation} as $tag) {
-                $this->_tagNames[] = $tag->getAttribute($this->tagNameAttribute);
+                $this->_tagValues[] = $tag->getAttribute($this->tagValueAttribute);
             }
         }
 
         if ($asArray === null) {
-            $asArray = $this->tagNamesAsArray;
+            $asArray = $this->tagValuesAsArray;
         }
 
         if ($asArray) {
-            return $this->_tagNames === null ? [] : $this->_tagNames;
+            return $this->_tagValues === null ? [] : $this->_tagValues;
         } else {
-            return $this->_tagNames === null ? '' : implode(', ', $this->_tagNames);
+            return $this->_tagValues === null ? '' : implode(', ', $this->_tagValues);
         }
     }
 
     /**
-     * Sets the tag names.
-     * @param string|string[] $names
+     * Sets tags.
+     * @param string|string[] $values
      */
-    public function setTagNames($names)
+    public function setTagValues($values)
     {
-        $this->_tagNames = array_unique($this->filterTagNames($names));
+        $this->_tagValues = $this->filterTagValues($values);
     }
 
     /**
-     * Adds the tag names.
-     * @param string|string[] $names
+     * Adds tags.
+     * @param string|string[] $values
      */
-    public function addTagNames($names)
+    public function addTagValues($values)
     {
-        $this->_tagNames = array_unique(array_merge($this->getTagNames(true), $this->filterTagNames($names)));
+        $this->_tagValues = array_unique(array_merge($this->getTagValues(true), $this->filterTagValues($values)));
     }
 
     /**
-     * Removes the tag names.
-     * @param string|string[] $names
+     * Removes tags.
+     * @param string|string[] $values
      */
-    public function removeTagNames($names)
+    public function removeTagValues($values)
     {
-        $this->_tagNames = array_diff($this->getTagNames(true), $this->filterTagNames($names));
+        $this->_tagValues = array_diff($this->getTagValues(true), $this->filterTagValues($values));
     }
 
     /**
-     * Returns a value indicating whether the tag names exists.
-     * @param string|string[] $names
+     * Removes all tags.
+     */
+    public function removeAllTagValues()
+    {
+        $this->_tagValues = [];
+    }
+
+    /**
+     * Returns a value indicating whether tags exists.
+     * @param string|string[] $values
      * @return boolean
      */
-    public function hasTagNames($names)
+    public function hasTagValues($values)
     {
-        $tagNames = $this->getTagNames(true);
+        $tagValues = $this->getTagValues(true);
 
-        foreach ($this->filterTagNames($names) as $name) {
-            if (!in_array($name, $tagNames)) {
+        foreach ($this->filterTagValues($values) as $value) {
+            if (!in_array($value, $tagValues)) {
                 return false;
             }
         }
@@ -130,7 +138,7 @@ class TaggableBehavior extends Behavior
      */
     public function afterSave()
     {
-        if ($this->_tagNames === null) {
+        if ($this->_tagValues === null) {
             return;
         }
 
@@ -144,13 +152,13 @@ class TaggableBehavior extends Behavior
         $class = $tagRelation->modelClass;
         $rows = [];
 
-        foreach ($this->_tagNames as $name) {
+        foreach ($this->_tagValues as $value) {
             /* @var ActiveRecord $tag */
-            $tag = $class::findOne([$this->tagNameAttribute => $name]);
+            $tag = $class::findOne([$this->tagValueAttribute => $value]);
 
             if ($tag === null) {
                 $tag = new $class();
-                $tag->setAttribute($this->tagNameAttribute, $name);
+                $tag->setAttribute($this->tagValueAttribute, $value);
             }
 
             if ($this->tagFrequencyAttribute !== false) {
@@ -201,17 +209,17 @@ class TaggableBehavior extends Behavior
     }
 
     /**
-     * Filters the tag names.
-     * @param string|string[] $names
+     * Filters tags.
+     * @param string|string[] $values
      * @return string[]
      */
-    public function filterTagNames($names)
+    public function filterTagValues($values)
     {
-        return preg_split(
+        return array_unique(preg_split(
             '/\s*,\s*/u',
-            preg_replace('/\s+/u', ' ', is_array($names) ? implode(',', $names) : $names),
+            preg_replace('/\s+/u', ' ', is_array($values) ? implode(',', $values) : $values),
             -1,
             PREG_SPLIT_NO_EMPTY
-        );
+        ));
     }
 }
