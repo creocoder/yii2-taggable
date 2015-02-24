@@ -4,7 +4,8 @@
     "keywords": [
         "yii2",
         "taggable",
-        "tags"
+        "tags",
+        "tag"
     ],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
