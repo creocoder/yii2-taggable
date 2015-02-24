@@ -20,7 +20,7 @@ $ composer require creocoder/yii2-taggable
 or add
 
 ```
-"creocoder/yii2-taggable": "~1.0"
+"creocoder/yii2-taggable": "~2.0"
 ```
 
 to the `require` section of your `composer.json` file.
@@ -88,7 +88,7 @@ use creocoder\taggable\TaggableBehavior;
 
 /**
  * ...
- * @property string $tagNames
+ * @property string $tagValues
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -97,9 +97,9 @@ class Post extends \yii\db\ActiveRecord
         return [
             'taggable' => [
                 'class' => TaggableBehavior::className(),
-                // 'tagNamesAsArray' => false,
+                // 'tagValuesAsArray' => false,
                 // 'tagRelation' => 'tags',
-                // 'tagNameAttribute' => 'name',
+                // 'tagValueAttribute' => 'name',
                 // 'tagFrequencyAttribute' => 'frequency',
             ],
         ];
@@ -109,7 +109,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             //...
-            ['tagNames', 'safe'],
+            ['tagValues', 'safe'],
         ];
     }
 
@@ -161,10 +161,10 @@ To set tags to the entity
 $post = new Post();
 
 // through string
-$post->tagNames = 'foo, bar, baz';
+$post->tagValues = 'foo, bar, baz';
 
 // through array
-$post->tagNames = ['foo', 'bar', 'baz'];
+$post->tagValues = ['foo', 'bar', 'baz'];
 ```
 
 ### Adding tags to the entity
@@ -175,10 +175,10 @@ To add tags to the entity
 $post = Post::findOne(1);
 
 // through string
-$post->addTagNames('bar, baz');
+$post->addTagValues('bar, baz');
 
 // through array
-$post->addTagNames(['bar', 'baz']);
+$post->addTagValues(['bar', 'baz']);
 ```
 
 ### Remove tags from the entity
@@ -189,10 +189,19 @@ To remove tags from the entity
 $post = Post::findOne(1);
 
 // through string
-$post->removeTagNames('bar, baz');
+$post->removeTagValues('bar, baz');
 
 // through array
-$post->removeTagNames(['bar', 'baz']);
+$post->removeTagValues(['bar', 'baz']);
+```
+
+### Remove all tags from the entity
+
+To remove all tags from the entity
+
+```php
+$post = Post::findOne(1);
+$post->removeAllTagValues();
 ```
 
 ### Getting tags from the entity
@@ -204,14 +213,14 @@ $posts = Post::find()->with('tags')->all();
 
 foreach ($posts as $post) {
     // as string
-    $tagNames = $post->tagNames;
+    $tagValues = $post->tagValues;
 
     // as array
-    $tagNamesAsArray = $post->getTagNames(true);
+    $tagValuesAsArray = $post->getTagValues(true);
 }
 ```
 
-Return type of `getTagNames` can also be configured globally via `tagNamesAsArray` property.
+Return type of `getTagValues` can also be configured globally via `tagValuesAsArray` property.
 
 ### Checking for tags in the entity
 
@@ -221,10 +230,10 @@ To check for tags in the entity
 $post = Post::findOne(1);
 
 // through string
-$result = $post->hasTagNames('foo, bar');
+$result = $post->hasTagValues('foo, bar');
 
 // through array
-$result = $post->hasTagNames(['foo', 'bar']);
+$result = $post->hasTagValues(['foo', 'bar']);
 ```
 
 ### Search entities by any tags
@@ -233,10 +242,20 @@ To search entities by any tags
 
 ```php
 // through string
-$posts = Post::find()->anyTagNames('foo, bar')->all();
+$posts = Post::find()->anyTagValues('foo, bar')->all();
 
 // through array
-$posts = Post::find()->anyTagNames(['foo', 'bar'])->all();
+$posts = Post::find()->anyTagValues(['foo', 'bar'])->all();
+```
+
+To search entities by any tags using custom tag model attribute
+
+```php
+// through string
+$posts = Post::find()->anyTagValues('foo-slug, bar-slug', 'slug')->all();
+
+// through array
+$posts = Post::find()->anyTagValues(['foo-slug', 'bar-slug'], 'slug')->all();
 ```
 
 ### Search entities by all tags
@@ -245,10 +264,20 @@ To search entities by all tags
 
 ```php
 // through string
-$posts = Post::find()->allTagNames('foo, bar')->all();
+$posts = Post::find()->allTagValues('foo, bar')->all();
 
 // through array
-$posts = Post::find()->allTagNames(['foo', 'bar'])->all();
+$posts = Post::find()->allTagValues(['foo', 'bar'])->all();
+```
+
+To search entities by all tags using custom tag model attribute
+
+```php
+// through string
+$posts = Post::find()->allTagValues('foo-slug, bar-slug', 'slug')->all();
+
+// through array
+$posts = Post::find()->allTagValues(['foo-slug', 'bar-slug'], 'slug')->all();
 ```
 
 ### Search entities related by tags
@@ -257,10 +286,20 @@ To search entities related by tags
 
 ```php
 // through string
-$posts = Post::find()->relatedByTagNames('foo, bar')->all();
+$posts = Post::find()->relatedByTagValues('foo, bar')->all();
 
 // through array
-$posts = Post::find()->relatedByTagNames(['foo', 'bar'])->all();
+$posts = Post::find()->relatedByTagValues(['foo', 'bar'])->all();
+```
+
+To search entities related by tags using custom tag model attribute
+
+```php
+// through string
+$posts = Post::find()->relatedByTagValues('foo-slug, bar-slug', 'slug')->all();
+
+// through array
+$posts = Post::find()->relatedByTagValues(['foo-slug', 'bar-slug'], 'slug')->all();
 ```
 
 ## Donating
