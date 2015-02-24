@@ -216,7 +216,7 @@ foreach ($posts as $post) {
     $tagValues = $post->tagValues;
 
     // as array
-    $tagValuesAsArray = $post->getTagValues(true);
+    $tagValues = $post->getTagValues(true);
 }
 ```
 
