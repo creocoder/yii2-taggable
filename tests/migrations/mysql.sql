@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS `tag`;
 
 CREATE TABLE `tag` (
   `id`        INT(11)      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `slug`      VARCHAR(255) NOT NULL,
   `name`      VARCHAR(255) NOT NULL,
   `frequency` INT(11)                           DEFAULT 0
 );

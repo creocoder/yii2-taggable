@@ -19,7 +19,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsAnyTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->anyTagValues('tag1, tag1, , tag2')->all();
+        $models = Post::find()->with('tags')->anyTagValues('tag 1, tag 1, , tag 2')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
@@ -31,7 +31,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsAnyTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->anyTagValues(['tag1', 'tag1', '', 'tag2'])->all();
+        $models = Post::find()->with('tags')->anyTagValues(['tag 1', 'tag 1', '', 'tag 2'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
@@ -43,7 +43,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsAllTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->allTagValues('tag3, tag3, , tag4')->all();
+        $models = Post::find()->with('tags')->allTagValues('tag 3, tag 3, , tag 4')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
@@ -55,7 +55,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsAllTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->allTagValues(['tag3', 'tag3', '', 'tag4'])->all();
+        $models = Post::find()->with('tags')->allTagValues(['tag 3', 'tag 3', '', 'tag 4'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
@@ -67,7 +67,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsRelatedByTagValues()
     {
         $data = [];
-        $models = Post::find()->with('tags')->relatedByTagValues('tag3, tag3, tag4, , tag5')->all();
+        $models = Post::find()->with('tags')->relatedByTagValues('tag 3, tag 3, tag 4, , tag 5')->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);
@@ -79,7 +79,7 @@ class TaggableQueryBehaviorTest extends DatabaseTestCase
     public function testFindPostsRelatedByTagValuesAsArray()
     {
         $data = [];
-        $models = Post::find()->with('tags')->relatedByTagValues(['tag3', 'tag3', 'tag4', '', 'tag5'])->all();
+        $models = Post::find()->with('tags')->relatedByTagValues(['tag 3', 'tag 3', 'tag 4', '', 'tag 5'])->all();
 
         foreach ($models as $model) {
             $data[] = $model->toArray([], ['tags']);

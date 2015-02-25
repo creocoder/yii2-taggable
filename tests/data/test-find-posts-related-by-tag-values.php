@@ -11,19 +11,22 @@ return array (
       0 => 
       array (
         'id' => 3,
-        'name' => 'tag3',
+        'slug' => 'tag-3',
+        'name' => 'tag 3',
         'frequency' => 3,
       ),
       1 => 
       array (
         'id' => 4,
-        'name' => 'tag4',
+        'slug' => 'tag-4',
+        'name' => 'tag 4',
         'frequency' => 2,
       ),
       2 => 
       array (
         'id' => 5,
-        'name' => 'tag5',
+        'slug' => 'tag-5',
+        'name' => 'tag 5',
         'frequency' => 1,
       ),
     ),
@@ -38,19 +41,22 @@ return array (
       0 => 
       array (
         'id' => 2,
-        'name' => 'tag2',
+        'slug' => 'tag-2',
+        'name' => 'tag 2',
         'frequency' => 2,
       ),
       1 => 
       array (
         'id' => 3,
-        'name' => 'tag3',
+        'slug' => 'tag-3',
+        'name' => 'tag 3',
         'frequency' => 3,
       ),
       2 => 
       array (
         'id' => 4,
-        'name' => 'tag4',
+        'slug' => 'tag-4',
+        'name' => 'tag 4',
         'frequency' => 2,
       ),
     ),
@@ -65,19 +71,22 @@ return array (
       0 => 
       array (
         'id' => 1,
-        'name' => 'tag1',
+        'slug' => 'tag-1',
+        'name' => 'tag 1',
         'frequency' => 1,
       ),
       1 => 
       array (
         'id' => 2,
-        'name' => 'tag2',
+        'slug' => 'tag-2',
+        'name' => 'tag 2',
         'frequency' => 2,
       ),
       2 => 
       array (
         'id' => 3,
-        'name' => 'tag3',
+        'slug' => 'tag-3',
+        'name' => 'tag 3',
         'frequency' => 3,
       ),
     ),

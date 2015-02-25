@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS "tag";
 
 CREATE TABLE "tag" (
   "id"        INTEGER NOT NULL PRIMARY KEY,
+  "slug"      TEXT    NOT NULL,
   "name"      TEXT    NOT NULL,
   "frequency" INTEGER DEFAULT 0
 );

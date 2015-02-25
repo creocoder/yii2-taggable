@@ -31,7 +31,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
     public function testFindPost()
     {
         $post = Post::findOne(2);
-        $this->assertEquals('tag2, tag3, tag4', $post->tagValues);
+        $this->assertEquals('tag 2, tag 3, tag 4', $post->tagValues);
     }
 
     public function testCreatePost()
@@ -53,7 +53,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
-            'tagValues' => 'tag4, tag4, tag5, , tag6',
+            'tagValues' => 'tag 4, tag 4, tag 5, , tag 6',
         ]);
 
         $this->assertTrue($post->save());
@@ -68,7 +68,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = new Post([
             'title' => 'New post title',
             'body' => 'New post body',
-            'tagValues' => ['tag4', 'tag4', 'tag5', '', 'tag6'],
+            'tagValues' => ['tag 4', 'tag 4', 'tag 5', '', 'tag 6'],
         ]);
 
         $this->assertTrue($post->save());
@@ -85,7 +85,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
             'body' => 'New post body',
         ]);
 
-        $post->addTagValues('tag4, tag4, tag5, , tag6');
+        $post->addTagValues('tag 4, tag 4, tag 5, , tag 6');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -100,7 +100,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
             'body' => 'New post body',
         ]);
 
-        $post->addTagValues(['tag4', 'tag4', 'tag5', '', 'tag6']);
+        $post->addTagValues(['tag 4', 'tag 4', 'tag 5', '', 'tag 6']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -125,7 +125,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->tagValues = 'tag3, tag3, tag4, , tag6';
+        $post->tagValues = 'tag 3, tag 3, tag 4, , tag 6';
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -138,7 +138,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->tagValues = ['tag3', 'tag3', 'tag4', '', 'tag6'];
+        $post->tagValues = ['tag 3', 'tag 3', 'tag 4', '', 'tag 6'];
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -151,7 +151,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->addTagValues('tag3, tag3, , tag6');
+        $post->addTagValues('tag 3, tag 3, , tag 6');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -164,7 +164,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->addTagValues(['tag3', 'tag3', '', 'tag6']);
+        $post->addTagValues(['tag 3', 'tag 3', '', 'tag 6']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -177,7 +177,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->removeTagValues('tag2, tag2, , tag4');
+        $post->removeTagValues('tag 2, tag 2, , tag 4');
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -190,7 +190,7 @@ class TaggableBehaviorTest extends DatabaseTestCase
         $post = Post::findOne(2);
         $post->title = 'Updated post title 2';
         $post->body = 'Updated post body 2';
-        $post->removeTagValues(['tag2', 'tag2', '', 'tag4']);
+        $post->removeTagValues(['tag 2', 'tag 2', '', 'tag 4']);
         $this->assertTrue($post->save());
 
         $dataSet = $this->getConnection()->createDataSet(['post', 'tag', 'post_tag_assn']);
@@ -214,10 +214,10 @@ class TaggableBehaviorTest extends DatabaseTestCase
     public function testPostHasTagValues()
     {
         $post = Post::findOne(2);
-        $this->assertTrue($post->hasTagValues('tag2, tag2, , tag4'));
-        $this->assertTrue($post->hasTagValues(['tag2', 'tag2', '', 'tag4']));
-        $this->assertFalse($post->hasTagValues('tag3, tag3, , tag5'));
-        $this->assertFalse($post->hasTagValues(['tag3', 'tag3', '', 'tag5']));
+        $this->assertTrue($post->hasTagValues('tag 2, tag 2, , tag 4'));
+        $this->assertTrue($post->hasTagValues(['tag 2', 'tag 2', '', 'tag 4']));
+        $this->assertFalse($post->hasTagValues('tag 3, tag 3, , tag 5'));
+        $this->assertFalse($post->hasTagValues(['tag 3', 'tag 3', '', 'tag 5']));
     }
 
     public function testDeletePost()

@@ -6,6 +6,7 @@
  */
 
 namespace tests\models;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * Tag
@@ -22,6 +23,19 @@ class Tag extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'tag';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'sluggable' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+            ]
+        ];
     }
 
     /**
