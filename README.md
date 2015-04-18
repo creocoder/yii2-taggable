@@ -122,7 +122,7 @@ class Post extends \yii\db\ActiveRecord
 
     public static function find()
     {
-        return new PostQuery(get_called_class());
+        return parent::find()->attachBehavior('TaggableQuery', TaggableQueryBehavior::className());
     }
 
     public function getTags()
@@ -134,22 +134,6 @@ class Post extends \yii\db\ActiveRecord
 ```
 
 Model `Tag` can be generated using Gii.
-
-Configure query class as follows
-
-```php
-use creocoder\taggable\TaggableQueryBehavior;
-
-class PostQuery extends \yii\db\ActiveQuery
-{
-    public function behaviors()
-    {
-        return [
-            TaggableQueryBehavior::className(),
-        ];
-    }
-}
-```
 
 ## Usage
 
