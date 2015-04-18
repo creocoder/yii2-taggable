@@ -122,7 +122,7 @@ class Post extends \yii\db\ActiveRecord
 
     public static function find()
     {
-        return parent::find()->attachBehavior('TaggableQuery', TaggableQueryBehavior::className());
+        return parent::find()->attachBehavior('TaggableQuery', TaggableQueryBehavior::className())->owner;
     }
 
     public function getTags()
