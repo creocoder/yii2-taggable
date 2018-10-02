@@ -184,6 +184,9 @@ class TaggableBehavior extends Behavior
      */
     public function beforeDelete()
     {
+        if ($this->owner->hasErrors()) {
+            return;
+        }
         $tagRelation = $this->owner->getRelation($this->tagRelation);
         $pivot = $tagRelation->via->from[0];
 
